@@ -13,4 +13,8 @@ class User < ApplicationRecord
   def friends
     requests + pendings
   end
+
+  def as_json(options = {})
+    super(only: [:username, :id])
+  end
 end
