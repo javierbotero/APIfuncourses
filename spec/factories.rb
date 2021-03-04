@@ -27,4 +27,9 @@ FactoryBot.define do
     course
     confirmed { true }
   end
+
+  factory :favorite do
+    user
+    course
+  end
 end

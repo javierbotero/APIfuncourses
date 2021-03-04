@@ -7,12 +7,14 @@ RSpec.describe Course, type: :model do
       @catalina = create(:user, username: 'Catalina')
       @kitchen_course = create(:course, teacher: @juan)
       create(:subscription, user: @catalina, course: @kitchen_course)
+      create(:favorite, user: @catalina, course: @kitchen_course)
     end
 
     after(:all) do
       Course.destroy_all
       User.destroy_all
       Subscription.destroy_all
+      Favorite.delete_all
     end
 
     it 'Checks Juan is the teacher of the Sushi course' do
@@ -25,6 +27,10 @@ RSpec.describe Course, type: :model do
 
     it 'Checks Juan has as a first course as teacher kitchen course' do
       expect(@juan.courses.first).to eq(@kitchen_course)
+    end
+
+    it "Checks kitchen course is inside Catalina's favorites" do
+      expect(@catalina.favorites.first.course).to eq(@kitchen_course)
     end
   end
 end
