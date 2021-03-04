@@ -5,8 +5,8 @@ class User < ApplicationRecord
   has_many :pending_accepted_friendships, -> { where confirmed: false }, class_name: 'Friendship', foreign_key: 'receiver_id', dependent: :destroy
   has_many :requests, through: :accepted_friendships, source: :sender
   has_many :pendings, through: :requested_friendships, source: :receiver
-  has_many :favorites
-  has_many :subscriptions
+  has_many :favorites, dependent: :destroy
+  has_many :subscriptions, dependent: :destroy
   has_many :courses, foreign_key: 'teacher_id'
   has_many :comments
 

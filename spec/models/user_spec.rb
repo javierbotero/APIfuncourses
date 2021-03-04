@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe User, type: :model do
-  describe 'User' do
+  describe 'User tests with friendships' do
     before(:all) do
       @javier = create(:user)
       @andrea = create(:user, username: 'Andrea', email: 'andrea@gmail.com')
