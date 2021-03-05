@@ -1,31 +1,41 @@
 require 'rails_helper'
 
 RSpec.describe "Users", type: :request do
+  before(:all) do
+    @user = create(:user)
+  end
 
-  describe "GET /loggin" do
+  after(:all) do
+    User.destroy_all
+  end
+
+  describe "POST /loggin" do
     it "returns http success" do
-      get "/users/loggin"
+      headers = { 'Content-Type' => 'application/json' }
+      post "/loggin", params: '{ "username": "Javier", "password": "password" }', headers: headers
       expect(response).to have_http_status(:success)
     end
   end
 
-  describe "GET /signup" do
+  describe "POST /signup" do
     it "returns http success" do
-      get "/users/signup"
+      headers = { 'Content-Type' => 'application/json' }
+      post "/signup", params: '{ "user": { "username": "Catalina", "password": "password", "email": "cata@gmail.com" }}', headers: headers
       expect(response).to have_http_status(:success)
     end
   end
 
-  describe "GET /update" do
+  describe "PUT /update" do
     it "returns http success" do
-      get "/users/update"
+      headers = { "Content-Type" => "application/json" }
+      put "/users/#{@user.id}", params: '{ "user": { "username": "Juan", "password": "password", "email": "juan@gmail.com" } }', headers: headers
       expect(response).to have_http_status(:success)
     end
   end
 
   describe "GET /destroy" do
     it "returns http success" do
-      get "/users/destroy"
+      delete "/users/#{@user.id}"
       expect(response).to have_http_status(:success)
     end
   end

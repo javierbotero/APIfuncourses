@@ -4,7 +4,7 @@ RSpec.describe Course, type: :model do
   describe 'Course tests with users and subscriptions' do
     before(:all) do
       @juan = create(:user, username: 'Juan')
-      @catalina = create(:user, username: 'Catalina')
+      @catalina = create(:user, username: 'Catalina', email: 'cata@gmail.com')
       @kitchen_course = create(:course, teacher: @juan)
       create(:subscription, user: @catalina, course: @kitchen_course)
       create(:favorite, user: @catalina, course: @kitchen_course)
