@@ -13,6 +13,7 @@ class User < ApplicationRecord
   validates :username, :password, :email, presence: true
   validates :username, :password, :email, length: { in: 4..100 }
   validates :username, :email, uniqueness: true
+  
   def friends
     requests + pendings
   end
