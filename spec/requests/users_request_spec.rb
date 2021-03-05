@@ -9,10 +9,10 @@ RSpec.describe "Users", type: :request do
     User.destroy_all
   end
 
-  describe "POST /loggin" do
+  describe "POST /login" do
     it "returns http success" do
       headers = { 'Content-Type' => 'application/json' }
-      post "/loggin", params: '{ "username": "Javier", "password": "password" }', headers: headers
+      post "/login", params: '{ "username": "Javier", "password": "password" }', headers: headers
       expect(response).to have_http_status(:success)
     end
   end

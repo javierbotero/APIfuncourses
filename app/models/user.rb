@@ -1,4 +1,5 @@
 class User < ApplicationRecord
+  has_secure_password
   has_many :requested_friendships, -> { where confirmed: true }, class_name: 'Friendship', foreign_key: 'sender_id', dependent: :destroy
   has_many :accepted_friendships, -> { where confirmed: true }, class_name: 'Friendship', foreign_key: 'receiver_id', dependent: :destroy
   has_many :pending_requested_friendships, -> { where confirmed: false }, class_name: 'Friendship', foreign_key: 'sender_id', dependent: :destroy
@@ -13,7 +14,7 @@ class User < ApplicationRecord
   validates :username, :password, :email, presence: true
   validates :username, :password, :email, length: { in: 4..100 }
   validates :username, :email, uniqueness: true
-  
+
   def friends
     requests + pendings
   end

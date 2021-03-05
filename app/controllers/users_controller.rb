@@ -1,8 +1,10 @@
 class UsersController < ApplicationController
-  def loggin
-    @user = User.find_by(username: params[:username], password: params[:password])
+  before_action :authenticate, only: [:update, :destroy]
 
-    if @user
+  def login
+    @user = User.find_by(username: params[:username])
+
+    if @user && @user.password == params[:password]
       render json: @user
     else
       render json: 'User not found :(', status: 404
@@ -39,6 +41,6 @@ class UsersController < ApplicationController
   private
 
   def user_params
-    params.require(:user).permit(:username, :password, :email)
+    params.require(:user).permit(:username, :password, :password_confirmation, :email)
   end
 end
