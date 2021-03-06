@@ -10,10 +10,8 @@ class Course < ApplicationRecord
       include: [
         {
           teacher: {
-            except: [
-              :password,
-              :email,
-              :updated_at,
+            only: [
+              :username,
             ],
           }
         },
@@ -23,9 +21,9 @@ class Course < ApplicationRecord
           comments: {
             include: {
               user: {
-                except: [
-                  :password,
-                  :email,
+                only: [
+                  :username,
+                  :id
                 ],
               },
             },
