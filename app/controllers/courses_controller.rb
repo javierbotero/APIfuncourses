@@ -1,4 +1,7 @@
 class CoursesController < ApplicationController
+  before_action :authenticate, only: [:create, :update, :destroy]
+  include Helpers
+
   def index
     @courses = Course.all
 
@@ -6,7 +9,7 @@ class CoursesController < ApplicationController
   end
 
   def create
-    @user = User.find(params[:id])
+    @user = User.find(params[:current_user_id])
     @course = @user.courses.build(course_params)
 
     if @course.save
@@ -19,18 +22,26 @@ class CoursesController < ApplicationController
   def update
     @course = Course.find(params[:id])
 
-    if @course.update(course_params)
-      render json: @course
+    if macth_user_ids(@course.teacher.id)
+      if @course.update(course_params)
+        render json: @course
+      else
+        render json: @course.errors.full_messages, status: 404
+      end
     else
-      render json: @course.errors.full_messages, status: 404
+      render json: 'You are not allowed to do this action', status: 404
     end
   end
 
   def destroy
     @course = Course.find(params[:id])
-    @course.destroy
+    if macth_user_ids(@course.teacher.id)
+      @course.destroy
 
-    render json: 'Course has been destroyed'
+      render json: 'Course has been destroyed'
+    else
+      render json: 'You are not allowed to do this action', status: 404
+    end
   end
 
   private

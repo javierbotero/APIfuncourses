@@ -7,7 +7,7 @@ class Course < ApplicationRecord
 
   validates :link, :provider, :title, :content, :teacher_id, :dates, :price, presence: true
   validates :link, :provider, :title, :content, :dates, length: { in: 4..2000 }
-  validates :link, :title, :content, uniqueness: true
+  validates :link, :content, uniqueness: true
 
   def as_json(options = {})
     super(
