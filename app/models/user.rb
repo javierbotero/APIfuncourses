@@ -9,8 +9,6 @@ class User < ApplicationRecord
   has_many :favorites, dependent: :destroy
   has_many :subscriptions, -> { where confirmed: true }, dependent: :destroy
   has_many :pending_subscriptions, -> { where confirmed: false }, class_name: 'Subscription', foreign_key: 'user_id'
-  has_many :subscribed_courses, through: :subscriptions, source: :course
-  has_many :pending_subscribed_courses, through: :pending_subscriptions, source: :course
   has_many :courses, foreign_key: 'teacher_id'
   has_many :comments
 
@@ -41,8 +39,10 @@ class User < ApplicationRecord
       include: [
         :subscriptions,
         :pending_subscriptions,
+        :subscriptions,
         :comments,
         :favorites,
+        :courses,
       ]
     )
   end

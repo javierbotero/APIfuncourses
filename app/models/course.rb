@@ -15,6 +15,7 @@ class Course < ApplicationRecord
         {
           teacher: {
             only: [
+              :id,
               :username,
             ],
           }
