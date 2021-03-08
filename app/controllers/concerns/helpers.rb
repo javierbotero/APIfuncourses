@@ -9,7 +9,7 @@ module Helpers
     friendship.receiver_id == @user.id ? true : false
   end
 
-  def macth_user_ids(id = nil)
+  def match_user_ids(id)
     params[:current_user_id].to_i == id
   end
 end

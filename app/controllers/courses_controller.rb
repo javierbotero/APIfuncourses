@@ -22,7 +22,7 @@ class CoursesController < ApplicationController
   def update
     @course = Course.find(params[:id])
 
-    if macth_user_ids(@course.teacher.id)
+    if match_user_ids(@course.teacher.id)
       if @course.update(course_params)
         render json: @course
       else
@@ -35,7 +35,7 @@ class CoursesController < ApplicationController
 
   def destroy
     @course = Course.find(params[:id])
-    if macth_user_ids(@course.teacher.id)
+    if match_user_ids(@course.teacher.id)
       @course.destroy
 
       render json: 'Course has been destroyed'
