@@ -7,7 +7,10 @@ class User < ApplicationRecord
   has_many :requests, through: :accepted_friendships, source: :sender
   has_many :pendings, through: :requested_friendships, source: :receiver
   has_many :favorites, dependent: :destroy
-  has_many :subscriptions, dependent: :destroy
+  has_many :subscriptions, -> { where confirmed: true }, dependent: :destroy
+  has_many :pending_subscriptions, -> { where confirmed: false }, class_name: 'Subscription', foreign_key: 'user_id'
+  has_many :subscribed_courses, through: :subscriptions, source: :course
+  has_many :pending_subscribed_courses, through: :pending_subscriptions, source: :course
   has_many :courses, foreign_key: 'teacher_id'
   has_many :comments
 
@@ -16,10 +19,31 @@ class User < ApplicationRecord
   validates :username, :email, uniqueness: true
 
   def friends
-    requests + pendings
+    friends = requests + pendings
+    friends.map do |friend|
+      {
+        id: friend.id,
+        username: friend.username,
+        favorites: friend.favorites,
+        subscriptions: friend.subscribed_courses.map{ |c| c.id },
+        courses: friend.courses.map{ |c| c.id },
+        comments: friend.comments
+      }
+    end
   end
 
   def as_json(options = {})
-    super(only: [:username, :id])
+    super(
+      only: [
+        :username,
+        :id,
+      ],
+      include: [
+        :subscriptions,
+        :pending_subscriptions,
+        :comments,
+        :favorites,
+      ]
+    )
   end
 end

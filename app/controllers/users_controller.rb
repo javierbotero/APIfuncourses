@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_action :authenticate, only: [:update, :destroy]
+  before_action :authenticate, only: [:update, :show, :destroy]
 
   def login
     @user = User.find_by(username: params[:username])
@@ -21,8 +21,14 @@ class UsersController < ApplicationController
     end
   end
 
+  def show
+    @user = User.find(params[:current_user_id])
+
+    render json: @user
+  end
+
   def update
-    @user = User.find(params[:id])
+    @user = User.find(params[:current_user_id])
 
     if @user.update(user_params)
       render json: @user
@@ -32,10 +38,16 @@ class UsersController < ApplicationController
   end
 
   def destroy
-    @user = User.find(params[:id])
+    @user = User.find(params[:current_user_id])
     @user.destroy
 
     render json: 'The user was deleted'
+  end
+
+  def friends
+    @user = User.find(params[:current_user_id])
+
+    render json: @user.friends
   end
 
   private
