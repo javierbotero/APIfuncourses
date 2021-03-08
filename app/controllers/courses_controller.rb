@@ -34,7 +34,7 @@ class CoursesController < ApplicationController
   end
 
   def destroy
-    @course = Course.find(params[:id])
+    @course = Course.find_by(token: params[:token])
     if match_user_ids(@course.teacher.id)
       @course.destroy
 

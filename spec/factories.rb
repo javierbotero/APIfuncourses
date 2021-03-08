@@ -1,4 +1,8 @@
 FactoryBot.define do
+  factory :token do
+    token { "MyString" }
+  end
+
   factory :user do
     username { 'Javier' }
     email { 'javier@gmail.com' }

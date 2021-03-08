@@ -7,4 +7,5 @@ Rails.application.routes.draw do
   resources :subscriptions, only: [:create, :update, :destroy]
   resources :favorites, only: [:create, :destroy]
   resources :comments, only: [:create, :update, :destroy]
+  resources :tokens, only: [:create, :destroy]
 end
