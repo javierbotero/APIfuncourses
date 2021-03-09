@@ -36,7 +36,10 @@ class Course < ApplicationRecord
         },
         :pendings,
       ],
-      except: :link,
+      except: [
+        :link,
+        :provider,
+      ]
     )
   end
 end
