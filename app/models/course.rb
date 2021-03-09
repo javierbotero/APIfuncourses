@@ -20,7 +20,14 @@ class Course < ApplicationRecord
             ],
           }
         },
-        :favorites,
+        {
+          favorites: {
+            except: [
+              :created_at,
+              :updated_at
+            ]
+          }
+        },
         {
           subscriptions: {
             except: [
