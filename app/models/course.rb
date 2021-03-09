@@ -21,7 +21,14 @@ class Course < ApplicationRecord
           }
         },
         :favorites,
-        :subscriptions,
+        {
+          subscriptions: {
+            except: [
+              :created_at,
+              :updated_at
+            ]
+          }
+        },
         {
           comments: {
             include: {
@@ -34,7 +41,14 @@ class Course < ApplicationRecord
             },
           }
         },
-        :pendings,
+        {
+          pendings: {
+            except: [
+              :created_at,
+              :updated_at
+            ]
+          }
+        },
       ],
       except: [
         :link,
