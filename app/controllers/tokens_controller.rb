@@ -13,6 +13,6 @@ class TokensController < ApplicationController
     @token = Token.find(params[:token_id])
     @token.destroy
 
-    render json: 'Token destroyed, thanks for contributing to clean the Database'
+    render json: { response: 'Token destroyed, thanks for contributing to clean the Database' }
   end
 end

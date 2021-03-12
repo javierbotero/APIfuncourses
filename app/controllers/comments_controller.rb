@@ -7,9 +7,9 @@ class CommentsController < ApplicationController
     @comment = @user.comments.build(comment_params)
 
     if @comment.save
-      render json: @comment
+      render json: { comment: @comment }
     else
-      render json: @comment.errors.full_messages, status: 404
+      render json: { error: @comment.errors.full_messages.join(' ') }, status: 404
     end
   end
 
@@ -17,9 +17,9 @@ class CommentsController < ApplicationController
     @comment = Comment.find(params[:id])
 
     if match_user_ids(@comment.user.id) && @comment.update(comment_params)
-      render json: @comment
+      render json: { comment: @comment }
     else
-      render json: @comment.errors.full_messages, status: 404
+      render json: { error: @comment.errors.full_messages.join(' ') }, status: 404
     end
   end
 
@@ -29,9 +29,9 @@ class CommentsController < ApplicationController
     if match_user_ids(@comment.user.id)
       @comment.destroy
 
-      render json: 'Comment deleted'
+      render json: { response: 'Comment deleted' }
     else
-      render json: 'You are not allowed to delete the comment', status: 404
+      render json: { error: 'You are not allowed to delete the comment' }, status: 404
     end
   end
 

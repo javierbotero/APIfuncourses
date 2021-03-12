@@ -5,7 +5,7 @@ class CoursesController < ApplicationController
   def index
     @courses = Course.all
 
-    render json: @courses
+    render json: { courses: @courses }
   end
 
   def create
@@ -13,9 +13,9 @@ class CoursesController < ApplicationController
     @course = @user.courses.build(course_params)
 
     if @course.save
-      render json: @course
+      render json: { course: @course }
     else
-      render json: @course.errors.full_messages, status: 404
+      render json: { error: @course.errors.full_messages.join(' ') }, status: 404
     end
   end
 
@@ -24,12 +24,12 @@ class CoursesController < ApplicationController
 
     if match_user_ids(@course.teacher.id)
       if @course.update(course_params)
-        render json: @course
+        render json: { course: @course }
       else
-        render json: @course.errors.full_messages, status: 404
+        render json: { error: @course.errors.full_messages.join(' ') }, status: 404
       end
     else
-      render json: 'You are not allowed to do this action', status: 404
+      render json: { error: 'You are not allowed to do this action' }, status: 404
     end
   end
 
@@ -38,9 +38,9 @@ class CoursesController < ApplicationController
     if match_user_ids(@course.teacher.id)
       @course.destroy
 
-      render json: 'Course has been destroyed'
+      render json: { response: 'Course has been destroyed' }
     else
-      render json: 'You are not allowed to do this action', status: 404
+      render json: { error: 'You are not allowed to do this action' }, status: 404
     end
   end
 

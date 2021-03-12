@@ -5,9 +5,9 @@ class UsersController < ApplicationController
     @user = User.find_by(username: params[:username])
 
     if @user && @user.authenticate(params[:password])
-      render json: @user
+      render json: { user: @user }
     else
-      render json: 'User not found :(', status: 404
+      render json: { error: 'User not found :(' }, status: 404
     end
   end
 
@@ -15,25 +15,25 @@ class UsersController < ApplicationController
     @user = User.new(user_params)
 
     if @user.save
-      render json: @user
+      render json: { user: @user }
     else
-      render json: @user.errors.full_messages, status: 404
+      render json: { error: @user.errors.full_messages.join(' ') }, status: 404
     end
   end
 
   def show
     @user = User.find(params[:current_user_id])
 
-    render json: @user
+    render json: { user: @user }
   end
 
   def update
     @user = User.find(params[:current_user_id])
 
     if @user.update(user_params)
-      render json: @user
+      render json: { user: @user }
     else
-      render json: @user.errors.full_messages, status: 404
+      render json: { error: @user.errors.full_messages.join(' ') }, status: 404
     end
   end
 
@@ -41,13 +41,13 @@ class UsersController < ApplicationController
     @user = User.find(params[:current_user_id])
     @user.destroy
 
-    render json: 'The user was deleted'
+    render json: { response: 'The user was deleted' }
   end
 
   def friends
     @user = User.find(params[:current_user_id])
 
-    render json: @user.friends
+    render json: { friends: @user.friends }
   end
 
   private
