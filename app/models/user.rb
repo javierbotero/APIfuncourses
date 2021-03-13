@@ -37,11 +37,31 @@ class User < ApplicationRecord
         :id,
       ],
       include: [
-        :subscriptions,
-        :pending_subscriptions,
-        :subscriptions,
+        {
+          subscriptions: {
+            except: [
+              :created_at,
+              :updated_at,
+            ]
+          }
+        },
+        {
+          pending_subscriptions: {
+            except: [
+              :created_at,
+              :updated_at,
+            ]
+          }
+        },
         :comments,
-        :favorites,
+        {
+          favorites: {
+            except: [
+              :created_at,
+              :updated_at,
+            ]
+          }
+        },
         :courses,
       ]
     )
