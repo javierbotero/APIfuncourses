@@ -2,7 +2,9 @@ class Course < ApplicationRecord
   belongs_to :teacher, class_name: 'User', foreign_key: 'teacher_id'
   has_many :favorites, dependent: :destroy
   has_many :pendings, -> { where confirmed: false }, class_name: 'Subscription', dependent: :destroy
+  has_many :pending_students, through: :pendings, source: :user
   has_many :subscriptions, -> { where confirmed: true }, dependent: :destroy
+  has_many :confirmed_students, through: :subscriptions, source: :user
   has_many :comments, dependent: :destroy
 
   validates :link, :provider, :title, :content, :teacher_id, :dates, :price, presence: true
@@ -37,6 +39,15 @@ class Course < ApplicationRecord
           }
         },
         {
+          confirmed_students: {
+            only: [
+              :id,
+              :username,
+              :email,
+            ]
+          }
+        },
+        {
           comments: {
             include: {
               user: {
@@ -56,6 +67,15 @@ class Course < ApplicationRecord
             ]
           }
         },
+        {
+          pending_students: {
+            only: [
+              :id,
+              :username,
+              :email,
+            ]
+          }
+        }
       ],
       except: [
         :link,

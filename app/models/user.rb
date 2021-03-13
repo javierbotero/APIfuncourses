@@ -50,6 +50,7 @@ class User < ApplicationRecord
         {
           pending_courses_as_student: {
             only: [
+              :id,
               :title,
               :content,
               :teacher_id,
@@ -57,16 +58,59 @@ class User < ApplicationRecord
             ]
           }
         },
-        :comments,
         {
-          favorites: {
-            except: [
-              :created_at,
-              :updated_at,0
+          comments: {
+            only: [
+              :body,
+              :course_id,
             ]
           }
         },
-        :courses,
+        {
+          favorites: {
+            only: :course_id
+          }
+        },
+        {
+          courses: {
+            include: [
+              {
+                confirmed_students: {
+                  only: [
+                    :id,
+                    :username,
+                    :email,
+                  ]
+                }
+              },
+              {
+                subscriptions: {
+                  except: [
+                    :created_at,
+                    :updated_at,
+                  ]
+                }
+              },
+              {
+                pendings: {
+                  except: [
+                    :created_at,
+                    :updated_at
+                  ]
+                }
+              },
+              {
+                pending_students: {
+                  only: [
+                    :id,
+                    :username,
+                    :email,
+                  ]
+                }
+              }
+            ]
+          }
+        }
       ]
     )
   end
