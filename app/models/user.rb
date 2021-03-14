@@ -3,8 +3,8 @@ class User < ApplicationRecord
   has_many :requested_friendships, -> { where confirmed: true }, class_name: 'Friendship', foreign_key: 'sender_id', dependent: :destroy
   has_many :accepted_friendships, -> { where confirmed: true }, class_name: 'Friendship', foreign_key: 'receiver_id', dependent: :destroy
   has_many :pending_requested_friendships, -> { where confirmed: false }, class_name: 'Friendship', foreign_key: 'sender_id', dependent: :destroy
-  has_many :pending_accepted_friendships, -> { where confirmed: false }, class_name: 'Friendship', foreign_key: 'receiver_id', dependent: :destroy
-  has_many :friendship_requests, through: :pending_accepted_friendships, source: :sender
+  has_many :pending_to_accept_friendships, -> { where confirmed: false }, class_name: 'Friendship', foreign_key: 'receiver_id', dependent: :destroy
+  has_many :friendship_requests, through: :pending_to_accept_friendships, source: :sender
   has_many :requests, through: :accepted_friendships, source: :sender
   has_many :pendings, through: :requested_friendships, source: :receiver
   has_many :favorites, dependent: :destroy
@@ -73,7 +73,7 @@ class User < ApplicationRecord
           }
         },
         {
-          pending_accepted_friendships: {
+          pending_to_accept_friendships: {
             except: [
               :created_at,
               :updated_at,
