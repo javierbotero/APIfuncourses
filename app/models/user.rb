@@ -33,7 +33,14 @@ class User < ApplicationRecord
               :updated_at,
               :link,
             ],
-            include: :favorites
+            include: {
+              favorites: {
+                except: [
+                  :created_at,
+                  :updated_at,
+                ]
+              }
+            }
           }
         },
         {
@@ -45,7 +52,14 @@ class User < ApplicationRecord
               :teacher_id,
               :dates,
             ],
-            include: :favorites
+            include: {
+              favorites: {
+                except: [
+                  :created_at,
+                  :updated_at,
+                ]
+              }
+            }
           }
         },
         {
@@ -94,7 +108,14 @@ class User < ApplicationRecord
                     :title,
                     :content,
                   ],
-                  include: :favorites
+                  include: {
+                    favorites: {
+                      except: [
+                        :created_at,
+                        :updated_at,
+                      ]
+                    }
+                  }
                 }
               },
               {
@@ -104,7 +125,14 @@ class User < ApplicationRecord
                     :title,
                     :content,
                   ],
-                  include: :favorites
+                  include: {
+                    favorites: {
+                      except: [
+                        :created_at,
+                        :updated_at,
+                      ]
+                    }
+                  }
                 }
               },
               {
@@ -134,7 +162,14 @@ class User < ApplicationRecord
                     :title,
                     :content,
                   ],
-                  include: :favorites
+                  include: {
+                    favorites: {
+                      except: [
+                        :created_at,
+                        :updated_at,
+                      ]
+                    }
+                  }
                 }
               },
               {
@@ -144,7 +179,14 @@ class User < ApplicationRecord
                     :title,
                     :content,
                   ],
-                  include: :favorites
+                  include: {
+                    favorites: {
+                      except: [
+                        :created_at,
+                        :updated_at,
+                      ]
+                    }
+                  }
                 }
               },
               {
@@ -195,7 +237,12 @@ class User < ApplicationRecord
                   ]
                 }
               },
-              :favorites
+              favorites: {
+                except: [
+                  :created_at,
+                  :updated_at,
+                ]
+              }
             ]
           }
         }
