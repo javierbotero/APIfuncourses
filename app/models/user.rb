@@ -32,7 +32,8 @@ class User < ApplicationRecord
               :created_at,
               :updated_at,
               :link,
-            ]
+            ],
+            include: :favorites
           }
         },
         {
@@ -43,7 +44,8 @@ class User < ApplicationRecord
               :content,
               :teacher_id,
               :dates,
-            ]
+            ],
+            include: :favorites
           }
         },
         {
@@ -91,7 +93,8 @@ class User < ApplicationRecord
                     :id,
                     :title,
                     :content,
-                  ]
+                  ],
+                  include: :favorites
                 }
               },
               {
@@ -100,7 +103,8 @@ class User < ApplicationRecord
                     :id,
                     :title,
                     :content,
-                  ]
+                  ],
+                  include: :favorites
                 }
               },
               {
@@ -129,7 +133,8 @@ class User < ApplicationRecord
                     :id,
                     :title,
                     :content,
-                  ]
+                  ],
+                  include: :favorites
                 }
               },
               {
@@ -138,7 +143,8 @@ class User < ApplicationRecord
                     :id,
                     :title,
                     :content,
-                  ]
+                  ],
+                  include: :favorites
                 }
               },
               {
@@ -188,7 +194,8 @@ class User < ApplicationRecord
                     :email,
                   ]
                 }
-              }
+              },
+              :favorites
             ]
           }
         }

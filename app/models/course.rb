@@ -49,6 +49,11 @@ class Course < ApplicationRecord
         },
         {
           comments: {
+            only: [
+              :body,
+              :user_id,
+              :course_id,
+            ],
             include: {
               user: {
                 only: [
