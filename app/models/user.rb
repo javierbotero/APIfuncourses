@@ -19,20 +19,6 @@ class User < ApplicationRecord
   validates :username, :password, :email, length: { in: 4..100 }
   validates :username, :email, uniqueness: true
 
-  def friends
-    friends = requests + pendings
-    friends.map do |friend|
-      {
-        id: friend.id,
-        username: friend.username,
-        favorites: friend.favorites,
-        subscriptions: friend.subscribed_courses.map{ |c| c.id },
-        courses: friend.courses.map{ |c| c.id },
-        comments: friend.comments
-      }
-    end
-  end
-
   def as_json(options = {})
     super(
       only: [
@@ -45,6 +31,7 @@ class User < ApplicationRecord
             except: [
               :created_at,
               :updated_at,
+              :link,
             ]
           }
         },
@@ -86,6 +73,82 @@ class User < ApplicationRecord
               :id,
               :username,
               :email,
+            ]
+          }
+        },
+        {
+          requests: {
+            except: [
+              :created_at,
+              :updated_at,
+              :password_digest,
+              :password_confirmation,
+            ],
+            include: [
+              {
+                courses_as_student: {
+                  only: [
+                    :id,
+                    :title,
+                    :content,
+                  ]
+                }
+              },
+              {
+                courses: {
+                  only: [
+                    :id,
+                    :title,
+                    :content,
+                  ]
+                }
+              },
+              {
+                comments: {
+                  only: [
+                    :body,
+                    :course_id,
+                  ]
+                }
+              }
+            ]
+          }
+        },
+        {
+          pendings: {
+            except: [
+              :created_at,
+              :updated_at,
+              :password_digest,
+              :password_confirmation,
+            ],
+            include: [
+              {
+                courses_as_student: {
+                  only: [
+                    :id,
+                    :title,
+                    :content,
+                  ]
+                }
+              },
+              {
+                courses: {
+                  only: [
+                    :id,
+                    :title,
+                    :content,
+                  ]
+                }
+              },
+              {
+                comments: {
+                  only: [
+                    :body,
+                    :course_id,
+                  ]
+                }
+              }
             ]
           }
         },
