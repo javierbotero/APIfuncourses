@@ -140,7 +140,15 @@ class User < ApplicationRecord
                   only: [
                     :body,
                     :course_id,
-                  ]
+                    :user_id,
+                  ],
+                  include: [
+                    {
+                      course: {
+                        only: :title
+                      }
+                    }
+                  ],
                 }
               }
             ]
@@ -191,9 +199,20 @@ class User < ApplicationRecord
               },
               {
                 comments: {
+                  include: [
+                    {
+                      user: {
+                        only: [
+                          :username,
+                          :id,
+                        ]
+                      }
+                    }
+                  ],
                   only: [
                     :body,
                     :course_id,
+                    :user_id,
                   ]
                 }
               }
