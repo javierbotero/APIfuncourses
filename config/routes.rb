@@ -3,9 +3,10 @@ Rails.application.routes.draw do
   post '/signup', to: 'users#create'
   post '/user', to: 'users#show'
   post '/courses', to: 'courses#index'
+  post '/courses/create', to: 'courses#create'
   post '/user/friends', to: 'users#friends'
   resources :users, only: [:update, :destroy]
-  resources :courses, only: [:create, :update, :destroy]
+  resources :courses, only: [:update, :destroy]
   resources :friendships, only: [:create, :update, :destroy]
   resources :subscriptions, only: [:create, :update, :destroy]
   resources :favorites, only: [:create, :destroy]
