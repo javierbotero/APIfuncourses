@@ -13,17 +13,18 @@ class FavoritesController < ApplicationController
         render json: { error: 'Action not allowed' }, status: 404
       end
     else
-      render json: { error: 'This course was already included' }, status: 404
+      render json: { error: 'This course was already liked' }, status: 404
     end
   end
 
   def destroy
     @favorite = Favorite.find(params[:id])
+    course_id = @favorite.course_id
 
     if match_user_ids(@favorite.user_id)
       @favorite.destroy
 
-      render json: { response: 'Not anymore in your favorites' }
+      render json: { favorite_id: params[:id], course_id: course_id }
     else
       render json: { error: 'You are not allowed to execute this action' }, status: 404
     end
