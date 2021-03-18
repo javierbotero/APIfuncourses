@@ -9,7 +9,7 @@ class SubscriptionsController < ApplicationController
       @subscription = @user.pending_subscriptions.build(course_id: params[:course_id])
 
       if @subscription.save
-        render json: { subscription: @subscription }
+        render json: { pending_subscription: @subscription }
       else
         render json: { error: @subscription.errors.full_messages.join(' ') }, status: 404
       end
@@ -21,8 +21,12 @@ class SubscriptionsController < ApplicationController
   def update
     @subscription = Subscription.find(params[:id])
 
-    if match_user_ids(@subscription.course.teacher.id) && @subscription.update(confirmed: true)
-      render json: { response: 'The subscription was accepted' }
+    if match_user_ids(@subscription.course.teacher.id)
+      if @subscription.update(confirmed: true)
+        render json: { updated_subscription: @subscription }
+      else
+        render json: { error: @subscription.errors.full_messages.join(' ') }, status: 404
+      end
     else
       render json: { error: 'You are not allowed to completed this action' }, status: 404
     end

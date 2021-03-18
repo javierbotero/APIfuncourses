@@ -65,11 +65,18 @@ class Course < ApplicationRecord
           }
         },
         {
+          pendings: {
+            except: [
+              :created_at,
+              :updated_at,
+            ]
+          }
+        },
+        {
           pending_students: {
             only: [
               :id,
               :username,
-              :email,
             ]
           }
         }
