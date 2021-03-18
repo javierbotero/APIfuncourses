@@ -4,12 +4,17 @@ class SubscriptionsController < ApplicationController
 
   def create
     @user = User.find(params[:current_user_id])
-    @subscription = @user.subscriptions.build(course_id: params[:course_id])
 
-    if @subscription.save
-      render json: { subscription: @subscription }
+    unless @user.courses.any?{ |c| c.id == params[:course_id].to_i }
+      @subscription = @user.pending_subscriptions.build(course_id: params[:course_id])
+
+      if @subscription.save
+        render json: { subscription: @subscription }
+      else
+        render json: { error: @subscription.errors.full_messages.join(' ') }, status: 404
+      end
     else
-      render json: { error: @subscription.errors.full_messages.join(' ') }, status: 404
+      render json: { error: 'Trying to be a student in your course looks not good :D' }, status: 404
     end
   end
 

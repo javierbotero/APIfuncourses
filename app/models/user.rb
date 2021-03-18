@@ -31,7 +31,6 @@ class User < ApplicationRecord
             except: [
               :created_at,
               :updated_at,
-              :link,
             ],
             include: {
               favorites: {
@@ -48,18 +47,7 @@ class User < ApplicationRecord
             only: [
               :id,
               :title,
-              :content,
-              :teacher_id,
-              :dates,
-            ],
-            include: {
-              favorites: {
-                except: [
-                  :created_at,
-                  :updated_at,
-                ]
-              }
-            }
+            ]
           }
         },
         {
