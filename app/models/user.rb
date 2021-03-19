@@ -72,11 +72,26 @@ class User < ApplicationRecord
           }
         },
         {
+          pending_requested_friendships: {
+            except: [
+              :created_at,
+              :updated_at,
+            ],
+            include: {
+              receiver: {
+                only: [
+                  :id,
+                  :username,
+                ]
+              }
+            }
+          }
+        },
+        {
           friendship_requests: {
             only: [
               :id,
               :username,
-              :email,
             ]
           }
         },
@@ -215,7 +230,6 @@ class User < ApplicationRecord
                   only: [
                     :id,
                     :username,
-                    :email,
                   ]
                 }
               },
@@ -240,7 +254,6 @@ class User < ApplicationRecord
                   only: [
                     :id,
                     :username,
-                    :email,
                   ]
                 }
               },
