@@ -24,6 +24,7 @@ class User < ApplicationRecord
       only: [
         :username,
         :id,
+        :status,
       ],
       include: [
         {
@@ -55,6 +56,11 @@ class User < ApplicationRecord
             only: [
               :body,
               :course_id,
+            ],
+            include: [
+              course: {
+                only: :title
+              }
             ]
           }
         },
