@@ -77,14 +77,6 @@ class User < ApplicationRecord
               :created_at,
               :updated_at,
             ],
-            include: {
-              receiver: {
-                only: [
-                  :id,
-                  :username,
-                ]
-              }
-            }
           }
         },
         {

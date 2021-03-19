@@ -3,12 +3,18 @@ class FriendshipsController < ApplicationController
   include Helpers
 
   def create
-    @friendship = Friendship.new(sender_id: params[:sender_id], receiver_id: params[:receiver_id])
+    @user = User.find(params[:current_user_id])
 
-    if is_user_receiver_or_sender(@friendship) && @friendship.save
-      render json: { friendship: @friendship }
+    unless @user.pending_requested_friendships.any?{ |f| f.receiver_id == params[:receiver_id].to_i }
+      @friendship = @user.pending_requested_friendships.build(receiver_id: params[:receiver_id])
+
+      if @friendship.save
+        render json: { friendship: @friendship }
+      else
+        render json: { error: 'Friendship could not be completed :(' }, status: 404
+      end
     else
-      render json: { error: 'Friendship could not be completed :(' }, status: 404
+      render json: { error: 'This action can not be repeated' }, status: 404
     end
   end
 
