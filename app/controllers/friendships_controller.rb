@@ -20,9 +20,11 @@ class FriendshipsController < ApplicationController
 
   def update
     @friendship = Friendship.find(params[:id])
+    @new_friend = User.find(@friendship.sender_id)
+    new_friend_info = new_friend_filtered(@new_friend)
 
     if is_user_receiver_id(@friendship) && @friendship.update(confirmed: true)
-      render json: { response: 'Now you are friends!' }
+      render json: { new_friend: new_friend_info }
     else
       render json: { error: 'Friendship was not updated :(' }, status: 404
     end
