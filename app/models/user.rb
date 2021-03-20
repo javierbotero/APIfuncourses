@@ -104,36 +104,12 @@ class User < ApplicationRecord
             include: [
               {
                 courses_as_student: {
-                  only: [
-                    :id,
-                    :title,
-                    :content,
-                  ],
-                  include: {
-                    favorites: {
-                      except: [
-                        :created_at,
-                        :updated_at,
-                      ]
-                    }
-                  }
+                  only: :id
                 }
               },
               {
                 courses: {
-                  only: [
-                    :id,
-                    :title,
-                    :content,
-                  ],
-                  include: {
-                    favorites: {
-                      except: [
-                        :created_at,
-                        :updated_at,
-                      ]
-                    }
-                  }
+                  only: :id
                 }
               },
               {
@@ -166,36 +142,12 @@ class User < ApplicationRecord
             include: [
               {
                 courses_as_student: {
-                  only: [
-                    :id,
-                    :title,
-                    :content,
-                  ],
-                  include: {
-                    favorites: {
-                      except: [
-                        :created_at,
-                        :updated_at,
-                      ]
-                    }
-                  }
+                  only: :id
                 }
               },
               {
                 courses: {
-                  only: [
-                    :id,
-                    :title,
-                    :content,
-                  ],
-                  include: {
-                    favorites: {
-                      except: [
-                        :created_at,
-                        :updated_at,
-                      ]
-                    }
-                  }
+                  only: :id
                 }
               },
               {
