@@ -1,5 +1,9 @@
 class User < ApplicationRecord
   has_secure_password
+  has_one_attached :avatar do |attachable|
+    attachable.variant :thumb, resize: '200x200'
+  end
+  has_many_attached :images
   has_many :requested_friendships, -> { where confirmed: true }, class_name: 'Friendship', foreign_key: 'sender_id', dependent: :destroy
   has_many :accepted_friendships, -> { where confirmed: true }, class_name: 'Friendship', foreign_key: 'receiver_id', dependent: :destroy
   has_many :pending_requested_friendships, -> { where confirmed: false }, class_name: 'Friendship', foreign_key: 'sender_id', dependent: :destroy
@@ -25,6 +29,8 @@ class User < ApplicationRecord
         :username,
         :id,
         :status,
+        :avatar,
+        :images,
       ],
       include: [
         {
