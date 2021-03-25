@@ -24,7 +24,7 @@ class User < ApplicationRecord
   validates :username, :email, uniqueness: true
 
   def url_avatar
-    Rails.application.routes.url_helpers.rails_blob_path(self.avatar, only_path: true)
+    Rails.application.routes.url_helpers.rails_blob_path(self.avatar, only_path: true) if self.avatar.attached?
   end
 
   def as_json(options = {})

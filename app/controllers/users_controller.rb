@@ -13,12 +13,13 @@ class UsersController < ApplicationController
 
   def create
     @user = User.new(user_params)
-    @user.avatar.attach(
-      io: StringIO.new(Base64.decode64(params[:avatar][:io])),
-      filename: params[:avatar][:filename],
-      content_type: "image/jpg",
-    )
-
+    if params[:avatar].instance_of? Hash
+      @user.avatar.attach(
+        io: StringIO.new(Base64.decode64(params[:avatar][:io])),
+        filename: params[:avatar][:filename],
+        content_type: "image/jpg",
+      )
+    end
     if @user.save
       render json: { user: @user }
     else
