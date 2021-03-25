@@ -23,15 +23,18 @@ class User < ApplicationRecord
   validates :username, :password, :email, length: { in: 4..100 }
   validates :username, :email, uniqueness: true
 
+  def url_avatar
+    Rails.application.routes.url_helpers.rails_blob_path(self.avatar, only_path: true)
+  end
+
   def as_json(options = {})
     super(
       only: [
         :username,
         :id,
         :status,
-        :avatar,
-        :images,
       ],
+      methods: :url_avatar,
       include: [
         {
           courses_as_student: {

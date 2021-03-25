@@ -52,4 +52,14 @@ module Helpers
       comments: comments_info(user.comments.includes(:course)),
     }
   end
+
+  def images_to_blobs(model, images)
+    images.each do |img|
+      model.images.attach(
+        io: StringIO.new(Base64.decode64(img[:io])),
+        filename: img[:filename],
+        content_type: 'image/jpg',
+      )
+    end
+  end
 end
