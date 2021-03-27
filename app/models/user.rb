@@ -38,18 +38,11 @@ class User < ApplicationRecord
       include: [
         {
           courses_as_student: {
-            except: [
-              :created_at,
-              :updated_at,
-            ],
-            include: {
-              favorites: {
-                except: [
-                  :created_at,
-                  :updated_at,
-                ]
-              }
-            }
+            only: [
+              :id,
+              :link,
+              :provider,
+            ]
           }
         },
         {
@@ -99,6 +92,7 @@ class User < ApplicationRecord
             only: [
               :id,
               :username,
+              :avatar,
             ]
           }
         },
@@ -183,48 +177,13 @@ class User < ApplicationRecord
         },
         {
           courses: {
-            include: [
-              {
-                confirmed_students: {
-                  only: [
-                    :id,
-                    :username,
-                  ]
-                }
-              },
-              {
-                subscriptions: {
-                  except: [
-                    :created_at,
-                    :updated_at,
-                  ]
-                }
-              },
-              {
-                pendings: {
-                  except: [
-                    :created_at,
-                    :updated_at
-                  ]
-                }
-              },
-              {
-                pending_students: {
-                  only: [
-                    :id,
-                    :username,
-                  ]
-                }
-              },
-              favorites: {
-                except: [
-                  :created_at,
-                  :updated_at,
-                ]
-              }
+            only: [
+              :id,
+              :link,
+              :provider,
             ]
           }
-        }
+        },
       ]
     )
   end
