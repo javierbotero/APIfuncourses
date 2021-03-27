@@ -36,6 +36,7 @@ class Course < ApplicationRecord
               :id,
               :username,
             ],
+            methods: :url_avatar,
           }
         },
         {
@@ -59,8 +60,8 @@ class Course < ApplicationRecord
             only: [
               :id,
               :username,
-              :email,
-            ]
+            ],
+            methods: :url_avatar,
           }
         },
         {
@@ -93,7 +94,8 @@ class Course < ApplicationRecord
             only: [
               :id,
               :username,
-            ]
+            ],
+            methods: :url_avatar,
           }
         }
       ],
