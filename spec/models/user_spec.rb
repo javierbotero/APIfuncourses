@@ -14,7 +14,7 @@ RSpec.describe User, type: :model do
     end
 
     it 'Checks Javier has one friend' do
-      expect(@javier.friends.length).to eq(1)
+      expect(@javier.requests.length + @javier.pendings.length).to eq(1)
     end
 
     it 'Checks the new friendship has Javier as sender' do
@@ -25,8 +25,8 @@ RSpec.describe User, type: :model do
       expect(@friendship.receiver).to eql(@andrea)
     end
 
-    it 'Checks the new friendship has Andrea as receiver' do
-      expect(@andrea.friends.length).to eql(1)
+    it 'Checks Andrea has one request' do
+      expect(@andrea.requests.length).to eql(1)
     end
   end
 end

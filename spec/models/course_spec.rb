@@ -18,7 +18,7 @@ RSpec.describe Course, type: :model do
     end
 
     it 'Checks Juan is the teacher of the Sushi course' do
-      expect(@kitchen_course.teacher).to eq(@juan)
+      expect(@kitchen_course.teacher.username).to eq(@juan.username)
     end
 
     it 'Catalina has as a first subscription the course kitchen' do

@@ -24,6 +24,7 @@ FactoryBot.define do
     association :teacher, factory: :user
     status { 'Open' }
     price { 10 }
+    dates { '2021-04-10 2021-04-20 ' }
   end
 
   factory :subscription do
