@@ -1,12 +1,11 @@
 module Helpers
-  def is_user_receiver_or_sender(friendship)
+  def user_receiver_or_sender?(friendship)
     user = User.find(params[:current_user_id])
-    user.id == friendship.sender_id || user.id == friendship.receiver_id ? true : false
+    user.id == friendship.sender_id || user.id == friendship.receiver_id
   end
 
-  def is_user_receiver_id(friendship)
-    user = User.find(params[:current_user_id])
-    friendship.receiver_id == @user.id ? true : false
+  def user_receiver_id?(friendship)
+    friendship.receiver_id == @user.id
   end
 
   def match_user_ids(id)
@@ -17,11 +16,11 @@ module Helpers
     courses_student = []
     courses.each do |c|
       courses_student.push({
-        id: c.id,
-        title: c.title,
-        content: c.content,
-        favorites: c.favorites
-      })
+                             id: c.id,
+                             title: c.title,
+                             content: c.content,
+                             favorites: c.favorites
+                           })
     end
     courses_student
   end
@@ -30,13 +29,13 @@ module Helpers
     result = []
     comments.each do |c|
       result.push({
-        user_id: c.user_id,
-        course_id: c.course_id,
-        body: c.body,
-        course: {
-          title: c.course.title
-        }
-      })
+                    user_id: c.user_id,
+                    course_id: c.course_id,
+                    body: c.body,
+                    course: {
+                      title: c.course.title
+                    }
+                  })
     end
     result
   end
@@ -49,7 +48,7 @@ module Helpers
       username: user.username,
       courses_as_student: course_to_info(user.courses_as_student),
       courses: course_to_info(user.courses),
-      comments: comments_info(user.comments.includes(:course)),
+      comments: comments_info(user.comments.includes(:course))
     }
   end
 
@@ -58,7 +57,7 @@ module Helpers
       model.images.attach(
         io: StringIO.new(Base64.decode64(img[:io])),
         filename: img[:filename],
-        content_type: 'image/jpg',
+        content_type: 'image/jpg'
       )
     end
   end

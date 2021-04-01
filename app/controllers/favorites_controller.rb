@@ -5,15 +5,15 @@ class FavoritesController < ApplicationController
   def create
     @user = User.find(params[:current_user_id])
 
-    unless @user.favorites.any?{ |fav| fav.course_id == params[:course_id] }
+    if @user.favorites.any? { |fav| fav.course_id == params[:course_id] }
+      render json: { error: 'This course was already liked' }, status: 404
+    else
       @favorite = @user.favorites.build(course_id: params[:course_id])
       if @favorite.save
         render json: { favorite: @favorite }
       else
         render json: { error: 'Action not allowed' }, status: 404
       end
-    else
-      render json: { error: 'This course was already liked' }, status: 404
     end
   end
 

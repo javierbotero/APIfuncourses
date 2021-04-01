@@ -1,10 +1,10 @@
 class UsersController < ApplicationController
-  before_action :authenticate, only: [:update, :show, :destroy]
+  before_action :authenticate, only: %i[update show destroy]
 
   def login
     @user = User.find_by(username: params[:username])
 
-    if @user && @user.authenticate(params[:password])
+    if @user&.authenticate(params[:password])
       render json: { user: @user }
     else
       render json: { error: 'User not found :(' }, status: 404
@@ -17,7 +17,7 @@ class UsersController < ApplicationController
       @user.avatar.attach(
         io: StringIO.new(Base64.decode64(params[:avatar][:io])),
         filename: params[:avatar][:filename],
-        content_type: "image/jpg",
+        content_type: 'image/jpg'
       )
     end
     if @user.save

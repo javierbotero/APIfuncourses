@@ -1,13 +1,22 @@
+# rubocop:disable Metrics/ClassLength
 class User < ApplicationRecord
   has_secure_password
   has_one_attached :avatar do |attachable|
     attachable.variant :thumb, resize: '200x200'
   end
   has_many_attached :images
-  has_many :requested_friendships, -> { where confirmed: true }, class_name: 'Friendship', foreign_key: 'sender_id', dependent: :destroy
-  has_many :accepted_friendships, -> { where confirmed: true }, class_name: 'Friendship', foreign_key: 'receiver_id', dependent: :destroy
-  has_many :pending_requested_friendships, -> { where confirmed: false }, class_name: 'Friendship', foreign_key: 'sender_id', dependent: :destroy
-  has_many :pending_to_accept_friendships, -> { where confirmed: false }, class_name: 'Friendship', foreign_key: 'receiver_id', dependent: :destroy
+  has_many :requested_friendships, lambda {
+                                     where confirmed: true
+                                   }, class_name: 'Friendship', foreign_key: 'sender_id', dependent: :destroy
+  has_many :accepted_friendships, lambda {
+                                    where confirmed: true
+                                  }, class_name: 'Friendship', foreign_key: 'receiver_id', dependent: :destroy
+  has_many :pending_requested_friendships, lambda {
+                                             where confirmed: false
+                                           }, class_name: 'Friendship', foreign_key: 'sender_id', dependent: :destroy
+  has_many :pending_to_accept_friendships, lambda {
+                                             where confirmed: false
+                                           }, class_name: 'Friendship', foreign_key: 'receiver_id', dependent: :destroy
   has_many :friendship_requests, through: :pending_to_accept_friendships, source: :sender
   has_many :requests, through: :accepted_friendships, source: :sender
   has_many :pendings, through: :requested_friendships, source: :receiver
@@ -24,40 +33,41 @@ class User < ApplicationRecord
   validates :username, :email, uniqueness: true
 
   def url_avatar
-    Rails.application.routes.url_helpers.rails_blob_path(self.avatar, only_path: true) if self.avatar.attached?
+    Rails.application.routes.url_helpers.rails_blob_path(avatar, only_path: true) if avatar.attached?
   end
 
-  def as_json(options = {})
+  # rubocop:disable Metrics/MethodLength
+  def as_json(_options = {})
     super(
-      only: [
-        :username,
-        :id,
-        :status,
+      only: %i[
+        username
+        id
+        status
       ],
       methods: :url_avatar,
       include: [
         {
           courses_as_student: {
-            only: [
-              :id,
-              :link,
-              :provider,
+            only: %i[
+              id
+              link
+              provider
             ]
           }
         },
         {
           pending_courses_as_student: {
-            only: [
-              :id,
-              :title,
+            only: %i[
+              id
+              title
             ]
           }
         },
         {
           comments: {
-            only: [
-              :body,
-              :course_id,
+            only: %i[
+              body
+              course_id
             ],
             include: [
               course: {
@@ -73,36 +83,36 @@ class User < ApplicationRecord
         },
         {
           pending_to_accept_friendships: {
-            except: [
-              :created_at,
-              :updated_at,
+            except: %i[
+              created_at
+              updated_at
             ]
           }
         },
         {
           pending_requested_friendships: {
-            except: [
-              :created_at,
-              :updated_at,
-            ],
+            except: %i[
+              created_at
+              updated_at
+            ]
           }
         },
         {
           friendship_requests: {
-            only: [
-              :id,
-              :username,
-              :avatar,
+            only: %i[
+              id
+              username
+              avatar
             ]
           }
         },
         {
           requests: {
-            except: [
-              :created_at,
-              :updated_at,
-              :password_digest,
-              :password_confirmation,
+            except: %i[
+              created_at
+              updated_at
+              password_digest
+              password_confirmation
             ],
             include: [
               {
@@ -117,10 +127,10 @@ class User < ApplicationRecord
               },
               {
                 comments: {
-                  only: [
-                    :body,
-                    :course_id,
-                    :user_id,
+                  only: %i[
+                    body
+                    course_id
+                    user_id
                   ],
                   include: [
                     {
@@ -128,7 +138,7 @@ class User < ApplicationRecord
                         only: :title
                       }
                     }
-                  ],
+                  ]
                 }
               }
             ]
@@ -136,11 +146,11 @@ class User < ApplicationRecord
         },
         {
           pendings: {
-            except: [
-              :created_at,
-              :updated_at,
-              :password_digest,
-              :password_confirmation,
+            except: %i[
+              created_at
+              updated_at
+              password_digest
+              password_confirmation
             ],
             include: [
               {
@@ -158,17 +168,17 @@ class User < ApplicationRecord
                   include: [
                     {
                       user: {
-                        only: [
-                          :username,
-                          :id,
+                        only: %i[
+                          username
+                          id
                         ]
                       }
                     }
                   ],
-                  only: [
-                    :body,
-                    :course_id,
-                    :user_id,
+                  only: %i[
+                    body
+                    course_id
+                    user_id
                   ]
                 }
               }
@@ -177,14 +187,16 @@ class User < ApplicationRecord
         },
         {
           courses: {
-            only: [
-              :id,
-              :link,
-              :provider,
+            only: %i[
+              id
+              link
+              provider
             ]
           }
-        },
+        }
       ]
     )
   end
+  # rubocop:enable Metrics/MethodLength
 end
+# rubocop:enable Metrics/ClassLength

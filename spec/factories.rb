@@ -1,6 +1,7 @@
+# rubocop:disable Metrics/BlockLength
 FactoryBot.define do
   factory :token do
-    token { "MyString" }
+    token { 'MyString' }
   end
 
   factory :user do
@@ -38,3 +39,4 @@ FactoryBot.define do
     course
   end
 end
+# rubocop:enable Metrics/BlockLength

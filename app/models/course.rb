@@ -14,99 +14,101 @@ class Course < ApplicationRecord
   validates :link, :content, uniqueness: true
 
   def main_image_url
-    Rails.application.routes.url_helpers.rails_blob_path(self.main, only_path: true) if self.main.attached?
+    Rails.application.routes.url_helpers.rails_blob_path(main, only_path: true) if main.attached?
   end
 
   def images_url
     result = []
-    if self.images.attached?
-      self.images.each do |img|
+    if images.attached?
+      images.each do |img|
         result.push(Rails.application.routes.url_helpers.rails_blob_path(img, only_path: true))
       end
     end
     result
   end
 
-  def as_json(options = {})
+  # rubocop:disable Metrics/MethodLength
+  def as_json(_options = {})
     super(
       include: [
         {
           teacher: {
-            only: [
-              :id,
-              :username,
+            only: %i[
+              id
+              username
             ],
-            methods: :url_avatar,
+            methods: :url_avatar
           }
         },
         {
           favorites: {
-            except: [
-              :created_at,
-              :updated_at
+            except: %i[
+              created_at
+              updated_at
             ]
           }
         },
         {
           subscriptions: {
-            except: [
-              :created_at,
-              :updated_at
+            except: %i[
+              created_at
+              updated_at
             ]
           }
         },
         {
           confirmed_students: {
-            only: [
-              :id,
-              :username,
+            only: %i[
+              id
+              username
             ],
-            methods: :url_avatar,
+            methods: :url_avatar
           }
         },
         {
           comments: {
-            only: [
-              :body,
-              :user_id,
-              :course_id,
+            only: %i[
+              body
+              user_id
+              course_id
             ],
             include: {
               user: {
-                only: [
-                  :username,
-                  :id
-                ],
-              },
-            },
+                only: %i[
+                  username
+                  id
+                ]
+              }
+            }
           }
         },
         {
           pendings: {
-            except: [
-              :created_at,
-              :updated_at,
+            except: %i[
+              created_at
+              updated_at
             ]
           }
         },
         {
           pending_students: {
-            only: [
-              :id,
-              :username,
+            only: %i[
+              id
+              username
             ],
-            methods: :url_avatar,
+            methods: :url_avatar
           }
         }
       ],
-      except: [
-        :link,
-        :provider,
+      except: %i[
+        link
+        provider
       ],
-      methods: [
-        :main_image_url,
-        :images_url,
+      methods: %i[
+        main_image_url
+        images_url
       ]
     )
   end
+  # rubocop:enable Metrics/MethodLength
 end

@@ -1,5 +1,5 @@
 class CoursesController < ApplicationController
-  before_action :authenticate, only: [:create, :update, :destroy]
+  before_action :authenticate, only: %i[create update destroy]
   include Helpers
 
   def index
@@ -18,7 +18,7 @@ class CoursesController < ApplicationController
         content_type: 'image/jpg'
       )
     end
-    images_to_blobs(@course, params[:images]) if params[:images].length > 0
+    images_to_blobs(@course, params[:images]) if params[:images].length.positive?
     if @course.save
       render json: { course: @course }
     else
