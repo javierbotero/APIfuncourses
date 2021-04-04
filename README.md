@@ -73,32 +73,60 @@ curl --request POST https://floating-earth-85150.herokuapp.com/tokens
 
 ### Endpoints
 
+Using the main url https://floating-earth-85150.herokuapp.com/ you can go to:
+
 POST   /signup(.:format)
+
 POST   /user(.:format)
+
 POST   /courses(.:format)
+
 POST   /courses/create(.:format)
+
 POST   /user/friends(.:format)
+
 PATCH  /users/:id(.:format)
+
 PUT    /users/:id(.:format)
+
 DELETE /users/:id(.:format)
+
 PATCH  /courses/:id(.:format)
+
 PUT    /courses/:id(.:format)
+
 DELETE /courses/:id(.:format)
+
 POST   /friendships(.:format)
+
 PATCH  /friendships/:id(.:format)
+
 PUT    /friendships/:id(.:format)
+
 DELETE /friendships/:id(.:format)
+
 POST   /subscriptions(.:format)
+
 PATCH  /subscriptions/:id(.:format)
+
 PUT    /subscriptions/:id(.:format)
+
 DELETE /subscriptions/:id(.:format)
+
 POST   /favorites(.:format)
+
 DELETE /favorites/:id(.:format)
+
 POST   /comments(.:format)
+
 PATCH  /comments/:id(.:format)
+
 PUT    /comments/:id(.:format)
+
 DELETE /comments/:id(.:format)
+
 POST   /tokens(.:format)
+
 DELETE /tokens/:id(.:format)
 
 To see which proper payload should be sent, just check out the controllers which handle the requests. Remember that `params` are the data that you need to send out in the fetch inside the body as seen in the example js fetch request example above. Please pay special attention to the application_controller.rb file where the methods `authenticate` and `authenticate_token` take through params the information about user and token to be able to continue the request to the controllers. These are the routes of the controller files:
