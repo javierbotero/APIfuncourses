@@ -129,15 +129,22 @@ POST   /tokens(.:format)
 
 DELETE /tokens/:id(.:format)
 
-To see which proper payload should be sent, just check out the controllers which handle the requests. Remember that `params` are the data that you need to send out in the fetch inside the body as seen in the example js fetch request example above. Please pay special attention to the application_controller.rb file where the methods `authenticate` and `authenticate_token` take through params the information about user and token to be able to continue the request to the controllers. These are the routes of the controller files:
+To see which proper payload should be sent, just check out the controllers which handle the requests. Remember that `params` are the data that you need to send out in the fetch inside the body as seen in the above example js fetch request. Please pay special attention to the application_controller.rb file where the methods `authenticate` and `authenticate_token` take through params the information about user and token to be able to continue the request to the controllers. These are the routes of the controller files in this repo:
 
 ./app/controllers/application_controller.rb,
+
 ./app/controllers/comments_controller.rb,
+
 ./app/controllers/courses_controller.rb,
-./app/controllers/favorites_controller.rb
-./app/controllers/friendships_controller.rb
-./app/controllers/susbcriptions_controller.rb
-./app/controllers/tokens_controller.rb
+
+./app/controllers/favorites_controller.rb,
+
+./app/controllers/friendships_controller.rb,
+
+./app/controllers/susbcriptions_controller.rb,
+
+./app/controllers/tokens_controller.rb,
+
 ./app/controllers/tokens_controller.rb
 
 ## Author
