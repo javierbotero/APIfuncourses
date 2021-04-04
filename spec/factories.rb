@@ -1,4 +1,9 @@
+# rubocop:disable Metrics/BlockLength
 FactoryBot.define do
+  factory :token do
+    token { 'MyString' }
+  end
+
   factory :user do
     username { 'Javier' }
     email { 'javier@gmail.com' }
@@ -20,6 +25,7 @@ FactoryBot.define do
     association :teacher, factory: :user
     status { 'Open' }
     price { 10 }
+    dates { '2021-04-10 2021-04-20 ' }
   end
 
   factory :subscription do
@@ -33,3 +39,4 @@ FactoryBot.define do
     course
   end
 end
+# rubocop:enable Metrics/BlockLength
