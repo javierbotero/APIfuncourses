@@ -31,6 +31,11 @@ class User < ApplicationRecord
   validates :username, :password, :email, presence: true
   validates :username, :password, :email, length: { in: 4..100 }
   validates :username, :email, uniqueness: true
+  validates :email,
+    format: {
+      with: /\A(|(([A-Za-z0-9]+_+)|([A-Za-z0-9]+\-+)|([A-Za-z0-9]+\.+)|([A-Za-z0-9]+\++))*[A-Za-z0-9]+@((\w+\-+)|(\w+\.))*\w{1,63}\.[a-zA-Z]{2,6})\z/i,
+      message: 'email should be valid'
+    }
 
   def url_avatar
     Rails.application.routes.url_helpers.rails_blob_path(avatar, only_path: true) if avatar.attached?
