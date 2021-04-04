@@ -1,41 +1,59 @@
 class UsersController < ApplicationController
-  before_action :authenticate, only: [:update, :destroy]
+  before_action :authenticate, only: %i[update show destroy]
 
   def login
     @user = User.find_by(username: params[:username])
 
-    if @user && @user.password == params[:password]
-      render json: @user
+    if @user&.authenticate(params[:password])
+      render json: { user: @user }
     else
-      render json: 'User not found :(', status: 404
+      render json: { error: 'User not found :(' }, status: 404
     end
   end
 
   def create
     @user = User.new(user_params)
-
+    if params[:avatar].instance_of? Hash
+      @user.avatar.attach(
+        io: StringIO.new(Base64.decode64(params[:avatar][:io])),
+        filename: params[:avatar][:filename],
+        content_type: 'image/jpg'
+      )
+    end
     if @user.save
-      render json: @user
+      render json: { user: @user }
     else
-      render json: @user.errors.full_messages, status: 404
+      render json: { error: @user.errors.full_messages.join(' ') }, status: 404
     end
   end
 
+  def show
+    @user = User.find(params[:current_user_id])
+
+    render json: { user: @user }
+  end
+
   def update
-    @user = User.find(params[:id])
+    @user = User.find(params[:current_user_id])
 
     if @user.update(user_params)
-      render json: @user
+      render json: { user: @user }
     else
-      render json: @user.errors.full_messages, status: 404
+      render json: { error: @user.errors.full_messages.join(' ') }, status: 404
     end
   end
 
   def destroy
-    @user = User.find(params[:id])
+    @user = User.find(params[:current_user_id])
     @user.destroy
 
-    render json: 'The user was deleted'
+    render json: { response: 'The user was deleted' }
+  end
+
+  def friends
+    @user = User.find(params[:current_user_id])
+
+    render json: { friends: @user.friends }
   end
 
   private
