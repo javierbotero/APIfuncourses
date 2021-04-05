@@ -23,7 +23,7 @@ class User < ApplicationRecord
   has_many :favorites, dependent: :destroy
   has_many :subscriptions, -> { where confirmed: true }, dependent: :destroy
   has_many :courses_as_student, through: :subscriptions, source: :course
-  has_many :pending_subscriptions, -> { where confirmed: false }, class_name: 'Subscription', foreign_key: 'user_id'
+  has_many :pending_subscriptions, -> { where confirmed: false }, class_name: 'Subscription', foreign_key: 'user_id', dependent: :destroy
   has_many :pending_courses_as_student, through: :pending_subscriptions, source: :course
   has_many :courses, foreign_key: 'teacher_id'
   has_many :comments, dependent: :destroy
