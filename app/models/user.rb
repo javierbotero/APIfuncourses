@@ -26,7 +26,7 @@ class User < ApplicationRecord
   has_many :pending_subscriptions, -> { where confirmed: false }, class_name: 'Subscription', foreign_key: 'user_id'
   has_many :pending_courses_as_student, through: :pending_subscriptions, source: :course
   has_many :courses, foreign_key: 'teacher_id'
-  has_many :comments
+  has_many :comments, dependent: :destroy
 
   validates :username, :password, :email, presence: true
   validates :username, :password, :email, length: { in: 4..100 }

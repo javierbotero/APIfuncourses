@@ -28,6 +28,12 @@ FactoryBot.define do
     dates { '2021-04-10 2021-04-20 ' }
   end
 
+  factory :comment do
+    association :user, factory: :user
+    association :course, factory: :course
+    body { 'Nice course, please take it' }
+  end
+
   factory :subscription do
     user
     course
