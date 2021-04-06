@@ -41,5 +41,15 @@ RSpec.describe 'Users', type: :request do
       }
       expect(JSON.parse(response.body)['user']['username'] == 'Ronaldo').to be true
     end
+
+    it 'Checks users#destroy through /users/:id returns correct response' do
+      delete "/users/#{@user.id}", params: {
+        token: @token,
+        token_id: @id,
+        current_user_id: @user.id,
+        current_user_password: 'password',
+      }
+      expect(JSON.parse(response.body)['response'] == 'The user was deleted').to eq true
+    end
   end
 end

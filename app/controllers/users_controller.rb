@@ -50,12 +50,6 @@ class UsersController < ApplicationController
     render json: { response: 'The user was deleted' }
   end
 
-  def friends
-    @user = User.find(params[:current_user_id])
-
-    render json: { friends: @user.friends }
-  end
-
   private
 
   def user_params
