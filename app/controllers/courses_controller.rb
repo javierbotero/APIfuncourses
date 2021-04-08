@@ -11,7 +11,7 @@ class CoursesController < ApplicationController
   def create
     @user = User.find(params[:current_user_id])
     @course = @user.courses.build(course_params)
-    if params[:main].instance_of? Hash
+    if params[:main][:io]
       @course.main.attach(
         io: StringIO.new(Base64.decode64(params[:main][:io])),
         filename: params[:main][:filename],
