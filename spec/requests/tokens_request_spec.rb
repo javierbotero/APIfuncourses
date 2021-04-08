@@ -10,6 +10,7 @@ RSpec.describe 'Tokens', type: :request do
     str = SecureRandom.hex
     token = Token.create(token: str)
     delete "/tokens/#{token.id}", params: { token: str, token_id: token.id }
-    expect(JSON.parse(response.body)['response'] == 'Token destroyed, thanks for contributing to clean the Database').to be true
+    expect(JSON.parse(response.body)['response'] == 'Token destroyed, thanks for contributing to clean the Database')
+      .to be true
   end
 end

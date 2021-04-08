@@ -23,7 +23,9 @@ class User < ApplicationRecord
   has_many :favorites, dependent: :destroy
   has_many :subscriptions, -> { where confirmed: true }, dependent: :destroy
   has_many :courses_as_student, through: :subscriptions, source: :course
-  has_many :pending_subscriptions, -> { where confirmed: false }, class_name: 'Subscription', foreign_key: 'user_id', dependent: :destroy
+  has_many :pending_subscriptions, lambda {
+                                     where confirmed: false
+                                   }, class_name: 'Subscription', foreign_key: 'user_id', dependent: :destroy
   has_many :pending_courses_as_student, through: :pending_subscriptions, source: :course
   has_many :courses, foreign_key: 'teacher_id'
   has_many :comments, dependent: :destroy
@@ -32,10 +34,12 @@ class User < ApplicationRecord
   validates :username, :password, :email, length: { in: 4..100 }
   validates :username, :email, uniqueness: true
   validates :email,
-    format: {
-      with: /\A(|(([A-Za-z0-9]+_+)|([A-Za-z0-9]+\-+)|([A-Za-z0-9]+\.+)|([A-Za-z0-9]+\++))*[A-Za-z0-9]+@((\w+\-+)|(\w+\.))*\w{1,63}\.[a-zA-Z]{2,6})\z/i,
-      message: 'email should be valid'
-    }
+            format: {
+              # rubocop:disable Layout/LineLength
+              with: /\A(|(([A-Za-z0-9]+_+)|([A-Za-z0-9]+-+)|([A-Za-z0-9]+\.+)|([A-Za-z0-9]+\++))*[A-Za-z0-9]+@((\w+-+)|(\w+\.))*\w{1,63}\.[a-zA-Z]{2,6})\z/i,
+              # rubocop:enable Layout/LineLength
+              message: 'email should be valid'
+            }
 
   def url_avatar
     Rails.application.routes.url_helpers.rails_blob_path(avatar, only_path: true) if avatar.attached?

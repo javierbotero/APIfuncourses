@@ -22,12 +22,20 @@ RSpec.describe 'Users', type: :request do
     end
 
     it 'Checks response of users#create with route /signup returns a user with correct username' do
-      post '/signup', params: { token: @token, token_id: @id, user: { username: 'Ronald', password: 'password', password_confirmation: 'password', email: 'ron@gmail.com' } }
+      post '/signup',
+           params: { token: @token, token_id: @id,
+                     user: {
+                       username: 'Ronald',
+                       password: 'password',
+                       password_confirmation: 'password',
+                       email: 'ron@gmail.com'
+                     } }
       expect(JSON.parse(response.body)['user']['username']).to eq('Ronald')
     end
 
     it 'Checks users#show returns correct user id' do
-      post '/user', params: { token: @token, token_id: @id, current_user_id: @user.id, current_user_password: 'password' }
+      post '/user',
+           params: { token: @token, token_id: @id, current_user_id: @user.id, current_user_password: 'password' }
       expect(JSON.parse(response.body)['user']['id']).to eq(@user.id)
     end
 
@@ -37,7 +45,8 @@ RSpec.describe 'Users', type: :request do
         token_id: @id,
         current_user_id: @user.id,
         current_user_password: 'password',
-        user: { username: 'Ronaldo', password: 'password', password_confirmation: 'password', email: 'ronaldo@gmail.com' }
+        user: { username: 'Ronaldo', password: 'password', password_confirmation: 'password',
+                email: 'ronaldo@gmail.com' }
       }
       expect(JSON.parse(response.body)['user']['username'] == 'Ronaldo').to be true
     end
@@ -47,7 +56,7 @@ RSpec.describe 'Users', type: :request do
         token: @token,
         token_id: @id,
         current_user_id: @user.id,
-        current_user_password: 'password',
+        current_user_password: 'password'
       }
       expect(JSON.parse(response.body)['response'] == 'The user was deleted').to eq true
     end
