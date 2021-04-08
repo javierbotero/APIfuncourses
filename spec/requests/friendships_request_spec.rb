@@ -37,7 +37,7 @@ RSpec.describe 'Friendships', type: :request do
       expect(JSON.parse(response.body)['new_friend']['email'] == 'jav6@gmail.com').to be true
     end
 
-    it '' do
+    it 'Checks friendships#destroy action with route delete /friendships/:id' do
       delete "/friendships/#{@friendship.id}", params: {
         token: @token,
         token_id: @id,
