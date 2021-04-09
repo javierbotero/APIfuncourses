@@ -25,6 +25,8 @@ Metrics/AbcSize:
 Metrics/ClassLength:
   Max: 150
 Metrics/BlockLength:
+  exclude:
+    - "spec/**/*"
   IgnoredMethods: ['describe']
   Max: 30
 
