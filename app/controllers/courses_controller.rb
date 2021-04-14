@@ -11,14 +11,14 @@ class CoursesController < ApplicationController
   def create
     @user = User.find(params[:current_user_id])
     @course = @user.courses.build(course_params)
-    if params[:main].instance_of? Hash
+    if params[:main] && params[:main][:io]
       @course.main.attach(
         io: StringIO.new(Base64.decode64(params[:main][:io])),
         filename: params[:main][:filename],
         content_type: 'image/jpg'
       )
     end
-    images_to_blobs(@course, params[:images]) if params[:images].length.positive?
+    images_to_blobs(@course, params[:images]) if params[:images].length.positive? && !params[:images][0].is_a?(String)
     if @course.save
       render json: { course: @course }
     else
@@ -41,7 +41,7 @@ class CoursesController < ApplicationController
   end
 
   def destroy
-    @course = Course.find_by(token: params[:token])
+    @course = Course.find(params[:id])
     if match_user_ids(@course.teacher.id)
       @course.destroy
 

@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe Course, type: :model do
   describe 'Course tests with users and subscriptions' do
     before(:all) do
-      @juan = create(:user, username: 'Juan')
+      @juan = create(:user, username: 'Juan', email: 'juan@gmail.com')
       @catalina = create(:user, username: 'Catalina', email: 'cata@gmail.com')
       @kitchen_course = create(:course, teacher: @juan)
       create(:subscription, user: @catalina, course: @kitchen_course)
@@ -14,7 +14,7 @@ RSpec.describe Course, type: :model do
       Course.destroy_all
       User.destroy_all
       Subscription.destroy_all
-      Favorite.delete_all
+      Favorite.destroy_all
     end
 
     it 'Checks Juan is the teacher of the Sushi course' do

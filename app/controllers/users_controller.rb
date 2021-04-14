@@ -13,7 +13,7 @@ class UsersController < ApplicationController
 
   def create
     @user = User.new(user_params)
-    if params[:avatar].instance_of? Hash
+    if params[:avatar][:io]
       @user.avatar.attach(
         io: StringIO.new(Base64.decode64(params[:avatar][:io])),
         filename: params[:avatar][:filename],
@@ -48,12 +48,6 @@ class UsersController < ApplicationController
     @user.destroy
 
     render json: { response: 'The user was deleted' }
-  end
-
-  def friends
-    @user = User.find(params[:current_user_id])
-
-    render json: { friends: @user.friends }
   end
 
   private

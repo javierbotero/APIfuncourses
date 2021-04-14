@@ -10,7 +10,7 @@ class TokensController < ApplicationController
   end
 
   def destroy
-    @token = Token.find(params[:token_id])
+    @token = Token.find(params[:id])
     @token.destroy
 
     render json: { response: 'Token destroyed, thanks for contributing to clean the Database' }
